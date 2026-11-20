@@ -1,0 +1,211 @@
+# TAREA 4 – ALMACENAMIENTO Y CONSULTAS DE DATOS EN BIG DATA
+
+## Universidad Nacional Abierta y a Distancia – UNAD
+
+**Curso:** Big Data  
+**Actividad:** Tarea 4 – Almacenamiento y Consultas de Datos  
+**Estudiante:** Mery  Pérez   
+**Tutor:** Handry Orozco  
+**Año:** 2026
+
+---
+
+## 1. Descripción del proyecto
+
+Este proyecto desarrolla una implementación práctica de una base de datos NoSQL utilizando MongoDB Atlas.
+
+Se busca aplicar técnicas de almacenamiento, administración, consulta y análisis de información mediante documentos BSON, colecciones y operaciones CRUD.
+
+La implementación utiliza una colección denominada `usuarios`, con registros de prueba que permiten desarrollar consultas, filtros, actualizaciones, eliminaciones y operaciones de agregación.
+
+## 2. Objetivo general
+
+Analizar las bases de datos NoSQL y aplicar sus conceptos mediante el diseño, implementación y manipulación de datos con MongoDB, desarrollando consultas básicas, filtros, operadores y agregaciones en un contexto de Big Data.
+
+## 3. Tecnologías utilizadas
+
+- MongoDB Atlas: almacenamiento de datos en la nube.
+- MongoDB Shell (mongosh): ejecución de comandos.
+- Git y GitHub: control de versiones y publicación del proyecto.
+- BSON / JSON: estructura de almacenamiento e intercambio de datos.
+
+## 4. Conceptos principales
+
+- NoSQL: bases de datos no relacionales.
+- MongoDB: sistema de gestión de bases de datos documentales.
+- Colecciones: agrupaciones de documentos.
+- Documentos BSON: estructuras de información.
+- CRUD: creación, lectura, actualización y eliminación.
+- Aggregation Pipeline: procesamiento y análisis de datos.
+
+## 5. Implementación
+
+La actividad contempla:
+
+1. Creación de la base de datos.
+2. Creación de la colección de usuarios.
+3. Inserción de al menos 100 documentos de prueba.
+4. Consultas de selección y filtrado.
+5. Actualización y eliminación de registros.
+6. Consultas de agregación.
+7. Análisis e interpretación de resultados.
+
+## 6. Comandos principales
+
+| Operación | Comando |
+|---|---|
+| Mostrar bases de datos | `show dbs` |
+| Seleccionar base de datos | `use solangie` |
+| Consultar colección | `db.usuarios.find()` |
+| Insertar documento | `insertOne()` |
+| Insertar varios | `insertMany()` |
+| Actualizar | `updateOne()` |
+| Actualizar varios | `updateMany()` |
+| Eliminar | `deleteOne()` |
+| Consultar estadísticas | `aggregate()` |
+
+## 7. Resultados esperados
+
+- Administración de documentos en MongoDB.
+- Ejecución de consultas con filtros.
+- Obtención de estadísticas mediante agregaciones.
+- Comprensión de las ventajas de las bases de datos NoSQL.
+- Aplicación de herramientas de almacenamiento y análisis de datos en escenarios Big Data.
+
+## 8. Estructura del repositorio
+
+- `documentos/`: informe de la actividad.
+- `scripts/`: comandos y consultas MongoDB.
+- `evidencias/`: capturas de implementación.
+- `referencias/`: fuentes bibliográficas.
+
+## 9. Autoría
+
+Proyecto académico desarrollado como parte del curso Big Data de la Universidad Nacional Abierta y a Distancia – UNAD.
+
+**Año 2026.**
+Conexión y administración
+// Mostrar bases de datos
+show dbs
+
+// Seleccionar base de datos
+use solangie
+
+// Consultar base seleccionada
+db
+
+// Mostrar colecciones
+show collections
+
+// Consultar estadísticas
+db.stats()
+Insertar información
+// Insertar un usuario
+db.usuarios.insertOne({
+    _id: 1,
+    Nombre: "Juan",
+    Apellido: "Perez",
+    Email: "juan@gmail.com",
+    Ciudad: "Bogota",
+    Edad: 36,
+    Activo: true
+})
+
+// Insertar varios usuarios
+db.usuarios.insertMany([
+    {
+        _id: 2,
+        Nombre: "Luis Gomez",
+        Ciudad: "Medellin",
+        Edad: 35,
+        Activo: true
+    },
+    {
+        _id: 3,
+        Nombre: "Marta Ruiz",
+        Ciudad: "Bogota",
+        Edad: 42,
+        Activo: true
+    },
+    {
+        _id: 4,
+        Nombre: "Carlos Diaz",
+        Ciudad: "Cali",
+        Edad: 23,
+        Activo: true
+    }
+])
+Consultar información
+// Mostrar todos los usuarios
+db.usuarios.find()
+
+// Mostrar un usuario
+db.usuarios.findOne({ _id: 1 })
+
+// Consultar usuarios activos
+db.usuarios.find({ Activo: true })
+
+// Usuarios mayores de 30 años
+db.usuarios.find({ Edad: { $gt: 30 } })
+
+// Usuarios menores de 30 años
+db.usuarios.find({ Edad: { $lt: 30 } })
+
+// Consultar por ciudad
+db.usuarios.find({ Ciudad: "Bogota" })
+
+// Contar registros
+db.usuarios.countDocuments()
+
+Actualizar y eliminar
+// Actualizar un usuario
+db.usuarios.updateOne(
+    { _id: 1 },
+    { $set: { Ciudad: "Casanare" } }
+)
+
+// Incrementar edad
+db.usuarios.updateOne(
+    { _id: 1 },
+    { $inc: { Edad: 1 } }
+)
+
+// Actualizar varios usuarios
+db.usuarios.updateMany(
+    { Ciudad: "Bogota" },
+    { $set: { Activo: true } }
+)
+
+// Eliminar un usuario
+db.usuarios.deleteOne({ _id: 4 })
+
+// Eliminar varios usuarios
+db.usuarios.deleteMany({ Activo: false })
+Consultas de agregación
+// Agrupar usuarios por ciudad
+db.usuarios.aggregate([
+    {
+        $group: {
+            _id: "$Ciudad",
+            total_usuarios: { $sum: 1 },
+            edad_promedio: { $avg: "$Edad" },
+            edad_minima: { $min: "$Edad" },
+            edad_maxima: { $max: "$Edad" }
+        }
+    },
+    {
+        $sort: { total_usuarios: -1 }
+    }
+])
+// Calcular estadísticas generales
+db.usuarios.aggregate([
+    {
+        $group: {
+            _id: null,
+            total: { $sum: 1 },
+            promedio_edad: { $avg: "$Edad" },
+            edad_maxima: { $max: "$Edad" },
+            edad_minima: { $min: "$Edad" }
+        }
+    }
+])
